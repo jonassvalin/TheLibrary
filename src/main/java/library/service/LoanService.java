@@ -18,9 +18,6 @@ loans (even though that isn't done in the current solution).
 @Component
 public class LoanService {
 
-    /**
-     * Key: Id of the {@link library.domain.Loan}
-     */
     private final HashMap<String, Loan> loans;
 
     private final CopyService copyService;

@@ -10,9 +10,6 @@ import java.util.Optional;
 @Component
 public class EmployeeService {
 
-    /**
-     * Key: Id of the {@link library.domain.Employee}
-     */
     private final HashMap<String, Employee> employees;
 
     public EmployeeService() {

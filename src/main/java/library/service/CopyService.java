@@ -19,9 +19,6 @@ public class CopyService {
     entity when you get into the topic of loaning a copy.
      */
 
-    /**
-     * Key: Id of the {@link library.domain.Copy}
-     */
     private final HashMap<String, Copy> copies;
 
     private final BookService bookService;

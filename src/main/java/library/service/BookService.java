@@ -10,9 +10,6 @@ import java.util.Optional;
 @Component
 public class BookService {
 
-    /**
-     * Key: Id of the {@link library.domain.Book}
-     */
     private final HashMap<String, Book> books;
 
     public BookService() {
