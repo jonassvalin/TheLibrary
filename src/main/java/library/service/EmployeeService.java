@@ -7,8 +7,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Optional;
 
-import static library.domain.Employee.employeeBuilder;
-
 @Component
 public class EmployeeService {
 
@@ -17,11 +15,8 @@ public class EmployeeService {
     public EmployeeService() {
         employees = new HashMap<>();
 
-        // Putting in a default for convenience
-        createEmployee(employeeBuilder()
-                .withFirstName("Jonas")
-                .withLastName("Svalin")
-                .build());
+        // Uncomment to create default for convenience during test/review
+        // createEmployee(employeeBuilder().withFirstName("Jonas").withLastName("Svalin").build());
     }
 
     public Collection<Employee> getAllEmployees() {

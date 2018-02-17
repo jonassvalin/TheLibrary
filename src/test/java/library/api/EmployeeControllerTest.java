@@ -52,6 +52,7 @@ public class EmployeeControllerTest {
         // then
         final ResponseEntity<Employee> expectedResponse = new ResponseEntity<>(employee, OK);
         assertThat(response, is(expectedResponse));
+        verify(employeeService).getEmployee(id);
     }
 
     @Test
@@ -66,6 +67,7 @@ public class EmployeeControllerTest {
         // then
         final ResponseEntity<Employee> expectedResponse = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         assertThat(response, is(expectedResponse));
+        verify(employeeService).getEmployee(id);
     }
 
     @Test
@@ -83,7 +85,7 @@ public class EmployeeControllerTest {
         // then
         final ResponseEntity<Collection<Employee>> expectedResponse = new ResponseEntity<>(singletonList(employee), OK);
         assertThat(response, is(expectedResponse));
-        verify(employeeService.getAllEmployees());
+        verify(employeeService).getAllEmployees();
     }
 
     @Test
@@ -107,6 +109,7 @@ public class EmployeeControllerTest {
         assertThat(response.getStatusCode(), is(OK));
         assertThat(response.getBody().getFirstName(), is(firstName));
         assertThat(response.getBody().getLastName(), is(lastName));
+        verify(employeeService).createEmployee(any());
     }
 
 }
