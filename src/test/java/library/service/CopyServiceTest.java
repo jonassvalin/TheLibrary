@@ -14,6 +14,7 @@ import static library.domain.Book.bookBuilder;
 import static library.domain.Copy.copyBuilder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -37,7 +38,6 @@ public class CopyServiceTest {
     in which case you would instead verify that the repository was correctly called, and then the individual
     tests would be more unique.
      */
-
     @Test
     public void shouldGetAllCopiesOfBook() throws Exception {
         // given
@@ -56,10 +56,10 @@ public class CopyServiceTest {
                 .get();
 
         // when
-        final Optional<Collection<Copy>> allCopies = copyService.getAllCopies(book.getId());
+        final Collection<Copy> allCopies = copyService.getAllCopiesOfBook(book.getId());
 
         // then
-        assertThat(allCopies.get(), containsInAnyOrder(copyOne, copyTwo));
+        assertThat(allCopies, containsInAnyOrder(copyOne, copyTwo));
     }
 
     @Test
@@ -69,10 +69,10 @@ public class CopyServiceTest {
         when(bookService.getBook(bookId)).thenReturn(Optional.empty());
 
         // when
-        final Optional<Collection<Copy>> allCopies = copyService.getAllCopies(bookId);
+        final Collection<Copy> allCopies = copyService.getAllCopiesOfBook(bookId);
 
         // then
-        assertThat(allCopies, is(Optional.empty()));
+        assertThat(allCopies, is(emptyCollectionOf(Copy.class)));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class CopyServiceTest {
         copyService.createCopy(copy);
 
         // when
-        final Optional<Copy> storedCopy = copyService.getCopy(copy.getBookId(), copy.getId());
+        final Optional<Copy> storedCopy = copyService.getCopy(copy.getId());
 
         // then
         assertThat(storedCopy, is(Optional.of(copy)));
@@ -113,7 +113,7 @@ public class CopyServiceTest {
 
         // then
         assertThat(returnedCopy, is(Optional.of(copy)));
-        assertThat(copyService.getCopy(copy.getBookId(), copy.getId()), is(Optional.of(copy)));
+        assertThat(copyService.getCopy(copy.getId()), is(Optional.of(copy)));
         verify(bookService).getBook(book.getId());
     }
 
@@ -130,7 +130,7 @@ public class CopyServiceTest {
 
         // then
         assertThat(storedCopy, is(Optional.empty()));
-        assertThat(copyService.getCopy(copy.getBookId(), copy.getId()), is(Optional.empty()));
+        assertThat(copyService.getCopy(copy.getId()), is(Optional.empty()));
     }
 
 }

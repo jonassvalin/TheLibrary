@@ -10,13 +10,13 @@ import java.util.Optional;
 @Component
 public class BookService {
 
+    /**
+     * Key: Id of the {@link library.domain.Book}
+     */
     private final HashMap<String, Book> books;
 
     public BookService() {
         books = new HashMap<>();
-
-        // Uncomment to create default for convenience during test/review
-        // createBook(bookBuilder().withTitle("The Pragmatic Programmer").withIsbn("978-0-201-61622-4").build());
     }
 
     public Collection<Book> getAllBooks() {

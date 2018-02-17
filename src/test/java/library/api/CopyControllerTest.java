@@ -19,7 +19,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
 public class CopyControllerTest {
@@ -38,37 +37,35 @@ public class CopyControllerTest {
     @Test
     public void shouldGetCopy() throws Exception {
         // given
-        final String bookId = "someBookId";
         final String id = "someId";
         final Copy copy = copyBuilder()
-                .withBookId(bookId)
+                .withBookId("someBookId")
                 .build();
 
-        when(copyService.getCopy(bookId, id)).thenReturn(Optional.of(copy));
+        when(copyService.getCopy(id)).thenReturn(Optional.of(copy));
 
         // when
-        final ResponseEntity<Copy> response = copyController.getCopy(bookId, id);
+        final ResponseEntity<Copy> response = copyController.getCopy(id);
 
         // then
         final ResponseEntity<Copy> expectedResponse = new ResponseEntity<>(copy, OK);
         assertThat(response, is(expectedResponse));
-        verify(copyService).getCopy(bookId, id);
+        verify(copyService).getCopy(id);
     }
 
     @Test
     public void shouldReturnNotFound() throws Exception {
         // given
-        final String bookId = "someBookId";
         final String id = "someId";
-        when(copyService.getCopy(bookId, id)).thenReturn(Optional.empty());
+        when(copyService.getCopy(id)).thenReturn(Optional.empty());
 
         // when
-        final ResponseEntity<Copy> response = copyController.getCopy(bookId, id);
+        final ResponseEntity<Copy> response = copyController.getCopy(id);
 
         // then
         final ResponseEntity<Copy> expectedResponse = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         assertThat(response, is(expectedResponse));
-        verify(copyService).getCopy(bookId, id);
+        verify(copyService).getCopy(id);
     }
 
     @Test
@@ -78,30 +75,15 @@ public class CopyControllerTest {
         final Copy copy = copyBuilder()
                 .withBookId(bookId)
                 .build();
-        when(copyService.getAllCopies(bookId)).thenReturn(Optional.of(singletonList(copy)));
+        when(copyService.getAllCopiesOfBook(bookId)).thenReturn(singletonList(copy));
 
         // when
-        final ResponseEntity<Collection<Copy>> response = copyController.getAllCopies(bookId);
+        final ResponseEntity<Collection<Copy>> response = copyController.getAllCopiesOfBook(bookId);
 
         // then
         final ResponseEntity<Collection<Copy>> expectedResponse = new ResponseEntity<>(singletonList(copy), OK);
         assertThat(response, is(expectedResponse));
-        verify(copyService).getAllCopies(bookId);
-    }
-
-    @Test
-    public void shouldReturnNotFoundIfBookDoesNotExist() throws Exception {
-        // given
-        final String bookId = "someBookId";
-        when(copyService.getAllCopies(bookId)).thenReturn(Optional.empty());
-
-        // when
-        final ResponseEntity<Collection<Copy>> response = copyController.getAllCopies(bookId);
-
-        // then
-        final ResponseEntity<Collection<Copy>> expectedResponse = new ResponseEntity<>(NOT_FOUND);
-        assertThat(response, is(expectedResponse));
-        verify(copyService).getAllCopies(bookId);
+        verify(copyService).getAllCopiesOfBook(bookId);
     }
 
     @Test

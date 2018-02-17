@@ -10,13 +10,13 @@ import java.util.Optional;
 @Component
 public class EmployeeService {
 
+    /**
+     * Key: Id of the {@link library.domain.Employee}
+     */
     private final HashMap<String, Employee> employees;
 
     public EmployeeService() {
         employees = new HashMap<>();
-
-        // Uncomment to create default for convenience during test/review
-        // createEmployee(employeeBuilder().withFirstName("Jonas").withLastName("Svalin").build());
     }
 
     public Collection<Employee> getAllEmployees() {

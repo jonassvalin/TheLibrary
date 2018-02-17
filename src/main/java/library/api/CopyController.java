@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collection;
 
@@ -17,7 +16,6 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Controller
-@RequestMapping("/book/{bookId}/copy")
 public class CopyController {
     
     private final CopyService copyService;
@@ -26,27 +24,25 @@ public class CopyController {
         this.copyService = copyService;
     }
 
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<Copy>> getAllCopies(@PathVariable final String bookId) {
-        return copyService
-                .getAllCopies(bookId)
-                .map(copy -> new ResponseEntity<>(copy, OK))
-                .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
+    @GetMapping(value = "/book/{bookId}/copy", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<Copy>> getAllCopiesOfBook(@PathVariable final String bookId) {
+        return new ResponseEntity<>(copyService.getAllCopiesOfBook(bookId), OK);
     }
 
-    @GetMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Copy> getCopy(@PathVariable final String bookId, @PathVariable final String id) {
-        return copyService
-                .getCopy(bookId, id)
-                .map(copy -> new ResponseEntity<>(copy, OK))
-                .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
-    }
-
-    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/book/{bookId}/copy", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Copy> createCopy(@PathVariable final String bookId) {
         return copyService
                 .createCopy(copyBuilder().withBookId(bookId).build())
                 .map(copy -> new ResponseEntity<>(copy, OK))
                 .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
     }
+
+    @GetMapping(value = "/copy/{id}", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Copy> getCopy(@PathVariable final String id) {
+        return copyService
+                .getCopy(id)
+                .map(copy -> new ResponseEntity<>(copy, OK))
+                .orElseGet(() -> new ResponseEntity<>(NOT_FOUND));
+    }
+
 }
