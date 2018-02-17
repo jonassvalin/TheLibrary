@@ -1,6 +1,6 @@
 ## The Library
 This is a backend API for running a library within a company. The API allows you to define books, and create copies of
-these books that employees can loan.
+these books that employees can loan. I run it straight from Intellij using the LibraryApplication.class as main class.
 
 ## Usage
 See controllers for full API options, but here are the essentials:
