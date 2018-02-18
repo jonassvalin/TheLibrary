@@ -32,4 +32,6 @@ Create Loan of Copy: POST localhost:8080/loan
 }
 ```
 
-Delete Loan of Copy: DELETE localhost:8080/loan/{id}
+Get Loans (employeeId is optional): GET localhost:8080/loan?employeeId={employeeId}
+
+Delete Loan: DELETE localhost:8080/loan/{id}
